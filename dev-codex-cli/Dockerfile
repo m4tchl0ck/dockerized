@@ -1,11 +1,4 @@
-FROM m4tchl0ck/dev-typescript:latest
-
-# Upgrade OS packages to their latest versions
-RUN sudo apt update && sudo apt upgrade -y
-
-# Install zsh
-RUN apt install -y zsh && \
-    chsh -s $(which zsh)
+FROM m4tchl0ck/dev-node:latest
 
 # Install OpenAI Codex CLI
 RUN npm install -g @openai/codex
@@ -13,8 +6,12 @@ RUN npm install -g @openai/codex
 # Install mcp-server
 RUN npm install -g mcp-remote
 
-# Add session picker script as the container entrypoint.
+# Add session picker script.
 COPY run-codex.sh /usr/local/bin/run-codex
 RUN chmod +x /usr/local/bin/run-codex
 
-ENTRYPOINT ["run-codex"]
+# Add entrypoint wrapper to run dev-setup first.
+COPY entrypoint.sh /usr/local/bin/entrypoint
+RUN chmod +x /usr/local/bin/entrypoint
+
+ENTRYPOINT ["entrypoint"]

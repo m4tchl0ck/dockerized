@@ -8,7 +8,8 @@ Container for OpenAI Codex CLI, built on `dev-typescript`.
 - zsh set as the default shell
 
 ## Entrypoint
-The container starts `run-codex`, which:
-- lists saved sessions from `$CODEX_HOME/sessions`
-- allows selecting or starting a new session
-- runs `codex` or `codex resume` accordingly
+The container starts `entrypoint`, which:
+- runs `dev-setup` to handle GitHub CLI auth and optional dotfiles setup
+- launches `run-codex` to select or start a Codex session
+
+`run-codex` lists saved sessions from `$CODEX_HOME/sessions`, then runs `codex` or `codex resume` accordingly.

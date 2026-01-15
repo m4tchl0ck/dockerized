@@ -19,5 +19,3 @@ if ! command -v chezmoi >/dev/null 2>&1; then
 else
   echo "chezmoi is not installed."
 fi
-
-zsh

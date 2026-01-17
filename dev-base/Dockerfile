@@ -15,13 +15,17 @@ RUN apk update \
     jq \
     ripgrep \
     mc \
-    zsh
+    bash \
+    zsh \
+    musl-locales \
+    musl-locales-lang
 
 RUN apk add --no-cache \
     gnupg \
     github-cli
 
 ENV SHELL=/bin/zsh
+ENV LANG=en_GB.UTF-8 LC_ALL=en_GB.UTF-8
 SHELL ["/bin/zsh", "-lc"]
 CMD ["zsh"]
 
@@ -41,4 +45,3 @@ RUN chmod +x /usr/local/bin/dev-setup
 COPY entrypoint.sh /usr/local/bin/entrypoint
 RUN chmod +x /usr/local/bin/entrypoint
 
-ENTRYPOINT ["entrypoint"]

@@ -23,8 +23,8 @@ Arguments:
   target-dir  Directory to create the workspace in (default: current directory)
 
 Examples:
-  curl -fsSL https://raw.githubusercontent.com/m4tchl0ck/dockerized/main/create-workspace.sh | sh -s -- my-project
-  curl -fsSL https://raw.githubusercontent.com/m4tchl0ck/dockerized/main/create-workspace.sh | sh -s -- my-project ~/repos
+  ./create-workspace.sh my-project
+  ./create-workspace.sh my-project ~/repos
 USAGE
 }
 

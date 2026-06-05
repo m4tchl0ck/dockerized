@@ -29,7 +29,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # jless (no apt package)
 RUN JLESS_VERSION=$(curl -fsSL https://api.github.com/repos/PaulJuliusMartinez/jless/releases/latest | jq -r '.tag_name') \
-    && curl -fsSL "https://github.com/PaulJuliusMartinez/jless/releases/download/${JLESS_VERSION}/jless-${JLESS_VERSION}-x86_64-unknown-linux-gnu.tar.gz" \
+    && ARCH=$(uname -m) \
+    && case "$ARCH" in \
+         x86_64)  JLESS_ARCH="x86_64-unknown-linux-gnu" ;; \
+         aarch64) JLESS_ARCH="aarch64-unknown-linux-gnu" ;; \
+         *) echo "Unsupported architecture: $ARCH" && exit 1 ;; \
+       esac \
+    && curl -fsSL "https://github.com/PaulJuliusMartinez/jless/releases/download/${JLESS_VERSION}/jless-${JLESS_VERSION}-${JLESS_ARCH}.tar.gz" \
        | tar xz -C /usr/local/bin/
 
 # act (no apt package)

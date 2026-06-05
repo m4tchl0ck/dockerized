@@ -1,0 +1,53 @@
+{
+  "name": "GCF Workspace",
+  "dockerComposeFile": [
+    "docker-compose.yaml"
+  ],
+  "runServices": [
+  ],
+  "service": "development",
+  "workspaceFolder": "/workspaces/",
+  "features": {
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/dev-containers/workspace/home,target=/root,type=bind",
+    "source=${localEnv:HOME}/.nuget,target=/root/.nuget,type=bind",
+    "source=${localEnv:HOME}/.aws,target=/root/.aws,type=bind",
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+  "postCreateCommand": "git submodule update --init --recursive",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "aidan-gibson.river",
+        "asciidoctor.asciidoctor-vscode",
+        "ckolkman.vscode-postgres",
+        "dotjoshjohnson.xml",
+        "editorconfig.editorconfig",
+        "github.copilot",
+        "github.copilot-chat",
+        "github.vscode-github-actions",
+        "github.vscode-pull-request-github",
+        "graphql.vscode-graphql",
+        "josefpihrt-vscode.roslynator",
+        "mhutchie.git-graph",
+        "ms-azuretools.vscode-docker",
+        "ms-dotnettools.csdevkit",
+        "patcx.vscode-nuget-gallery",
+        "redhat.vscode-yaml",
+        "humao.rest-client",
+        "tomrijndorp.find-it-faster",
+        "ms-vscode.vscode-chat-customizations-evaluations"
+      ]
+    }
+  },
+  // "remoteUser": "vscode",
+  "remoteEnv": {
+    "GIT_EDITOR": "code --wait"
+    // "_REMOTE_USER_HOME": "/home/vscode"
+  },
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [
+    3000
+  ]
+}

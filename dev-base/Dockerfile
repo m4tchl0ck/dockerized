@@ -54,7 +54,3 @@ CMD ["zsh"]
 # Add dev-setup script.
 COPY setup-dev.sh /usr/local/bin/setup-dev
 RUN chmod +x /usr/local/bin/setup-dev
-
-# Add entrypoint wrapper.
-COPY entrypoint.sh /usr/local/bin/entrypoint
-RUN chmod +x /usr/local/bin/entrypoint

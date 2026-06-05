@@ -47,5 +47,10 @@ y | Y | yes | YES)
     curl -fsSL https://claude.ai/install.sh | bash
     printf "---------------------"
     printf "ClaudeCode installed"
+
+    printf "Installing rtk"
+    printf "---------------------"
+    rtk init -g // add to setup-dev
+    printf "---------------------"
   ;;
 esac

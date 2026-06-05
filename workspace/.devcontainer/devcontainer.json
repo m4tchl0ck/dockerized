@@ -53,7 +53,7 @@
       ]
     }
   },
-  "remoteUser": "vscode",
+  "remoteUser": "developer",
   "remoteEnv": {
     "GIT_EDITOR": "code --wait"
   },

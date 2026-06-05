@@ -1,0 +1,11 @@
+{
+  "name": "alpine-yubikey",
+  "build": { "dockerfile": "Dockerfile" },
+  "runArgs": [
+    "--add-host=host.docker.internal:host-gateway"
+  ],
+  "initializeCommand": "bash -c '[ -f /tmp/socat-gpg.pid ] && kill $(cat /tmp/socat-gpg.pid) 2>/dev/null; nohup socat TCP-LISTEN:17000,reuseaddr,fork UNIX-CONNECT:${HOME}/.gnupg/S.gpg-agent >/dev/null 2>&1 & echo $! > /tmp/socat-gpg.pid; sleep 1'",
+  "postCreateCommand": "gpg --import /workspaces/dockerized/adrian-rusznica.gpg.txt 2>/dev/null || true",
+  "postStartCommand": "bash -c 'pkill socat 2>/dev/null || true; pkill gpg-agent 2>/dev/null || true; pkill scdaemon 2>/dev/null || true; sleep 0.5; rm -f /root/.gnupg/S.gpg-agent; nohup socat UNIX-LISTEN:/root/.gnupg/S.gpg-agent,fork TCP:host.docker.internal:17000 >/dev/null 2>&1 & sleep 1'",
+  "remoteUser": "root"
+}

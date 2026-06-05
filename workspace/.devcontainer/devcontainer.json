@@ -37,7 +37,19 @@
         "redhat.vscode-yaml",
         "humao.rest-client",
         "tomrijndorp.find-it-faster",
-        "ms-vscode.vscode-chat-customizations-evaluations"
+        "ms-vscode.vscode-chat-customizations-evaluations",
+        // Python
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.debugpy",
+        // TypeScript / Node
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-next",
+        // General
+        "usernamehw.errorlens",
+        "eamodio.gitlens",
+        "streetsidesoftware.code-spell-checker"
       ]
     }
   },

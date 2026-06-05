@@ -13,6 +13,7 @@ if command -v chezmoi >/dev/null 2>&1; then
     read -r dotfiles_repo
     if [ -n "$dotfiles_repo" ]; then
       chezmoi init --apply "$dotfiles_repo"
+      zsh
     fi
     ;;
   esac

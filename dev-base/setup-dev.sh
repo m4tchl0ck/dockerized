@@ -13,6 +13,7 @@ if command -v chezmoi >/dev/null 2>&1; then
     read -r dotfiles_repo
     if [ -n "$dotfiles_repo" ]; then
       chezmoi init --apply "$dotfiles_repo"
+      zsh
     fi
     ;;
   esac
@@ -20,40 +21,13 @@ else
   echo "chezmoi is not installed."
 fi
 
-printf "Install AI tools? [y/N]: "
-read -r ai_answer
-case "$ai_answer" in
+printf "Install rtk? [y/N]: "
+read -r rtk_answer
+case "$rtk_answer" in
 y | Y | yes | YES)
-    printf "Installing mcp-remote"
-    printf "---------------------"
-    npm install -g mcp-remote
-    printf "---------------------"
-    printf "mcp-remote installed"
-
-    printf "Installing @openai/codex"
-    printf "---------------------"
-    npm install -g @openai/codex
-    printf "---------------------"
-    printf "@openai/codex installed"
-
-    printf "Installing OpenCode"
-    printf "---------------------"
-    curl -fsSL https://opencode.ai/install | bash
-    printf "---------------------"
-    printf "OpenCode installed"
-
-    printf "Installing ClaudeCode"
-    printf "---------------------"
-    curl -fsSL https://claude.ai/install.sh | bash
-    printf "---------------------"
-    printf "ClaudeCode installed"
-
-    printf "Installing rtk"
-    printf "---------------------"
     curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh \
     && echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc \
     && echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
-    rtk init -g // add to setup-dev
-    printf "---------------------"
+    rtk init -g
   ;;
 esac

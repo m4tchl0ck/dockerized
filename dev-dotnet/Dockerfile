@@ -1,19 +1,11 @@
 FROM m4tchl0ck/dev-base:latest
 
-RUN apk update && apk upgrade \
-    && apk add --no-cache \
-    nodejs \
-    npm \
-    aws-cli \
-    dotnet10-sdk
+# Add Microsoft apt repo (.NET)
+RUN install -m 0755 -d /etc/apt/keyrings \
+    && curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /etc/apt/keyrings/microsoft.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/debian/12/prod bookworm main" \
+       > /etc/apt/sources.list.d/microsoft.list
 
-# AI tools
-RUN npm install -g mcp-remote \
-    && npm install -g @openai/codex \
-    && curl -fsSL https://opencode.ai/install | bash \
-    && curl -fsSL https://claude.ai/install.sh | bash
-
-ENV USE_BUILTIN_RIPGREP=0
-
-RUN apk add --no-cache 
-
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dotnet-sdk-10.0 \
+    && rm -rf /var/lib/apt/lists/*

@@ -1,0 +1,1 @@
+FROM m4tchl0ck/dev-full:latest

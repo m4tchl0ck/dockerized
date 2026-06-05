@@ -21,6 +21,19 @@ RUN apk update && apk upgrade \
     github-cli \
     docker-cli
 
+RUN apk add --no-cache \
+    act \
+    chromium \
+    font-noto-emoji \
+    freetype \
+    gcompat \
+    harfbuzz \
+    nss \
+    postgresql-client \
+    py3-yaml \
+    ttf-freefont \
+    xdpyinfo
+
 ENV SHELL=/bin/zsh
 ENV LANG=en_GB.UTF-8 LC_ALL=en_GB.UTF-8
 SHELL ["/bin/zsh", "-lc"]

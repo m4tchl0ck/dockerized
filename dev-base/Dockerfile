@@ -27,16 +27,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     x11-utils \
     && rm -rf /var/lib/apt/lists/*
 
-# jless (no apt package)
-RUN JLESS_VERSION=$(curl -fsSL https://api.github.com/repos/PaulJuliusMartinez/jless/releases/latest | jq -r '.tag_name') \
-    && ARCH=$(uname -m) \
-    && case "$ARCH" in \
-         x86_64)  JLESS_ARCH="x86_64-unknown-linux-gnu" ;; \
-         aarch64) JLESS_ARCH="aarch64-unknown-linux-gnu" ;; \
-         *) echo "Unsupported architecture: $ARCH" && exit 1 ;; \
-       esac \
-    && curl -fsSL "https://github.com/PaulJuliusMartinez/jless/releases/download/${JLESS_VERSION}/jless-${JLESS_VERSION}-${JLESS_ARCH}.tar.gz" \
-       | tar xz -C /usr/local/bin/
+# jless (x86_64 only — no arm64 Linux binary available)
+RUN if [ "$(uname -m)" = "x86_64" ]; then \
+      JLESS_VERSION=$(curl -fsSL https://api.github.com/repos/PaulJuliusMartinez/jless/releases/latest | jq -r '.tag_name') \
+      && curl -fsSL "https://github.com/PaulJuliusMartinez/jless/releases/download/${JLESS_VERSION}/jless-${JLESS_VERSION}-x86_64-unknown-linux-gnu.tar.gz" \
+         | tar xz -C /usr/local/bin/; \
+    else \
+      echo "jless: skipping on $(uname -m) — no binary available"; \
+    fi
 
 # act (no apt package)
 RUN curl -fsSL https://raw.githubusercontent.com/nektos/act/master/install.sh | bash -s -- -b /usr/local/bin

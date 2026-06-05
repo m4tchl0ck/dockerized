@@ -54,3 +54,8 @@ CMD ["zsh"]
 # Add dev-setup script.
 COPY setup-dev.sh /usr/local/bin/setup-dev
 RUN chmod +x /usr/local/bin/setup-dev
+
+# Run setup-dev on first login for any user.
+COPY setup-dev-init.sh /etc/profile.d/setup-dev-init.sh
+RUN chmod +x /etc/profile.d/setup-dev-init.sh \
+    && echo 'source /etc/profile.d/setup-dev-init.sh' >> /etc/zsh/zlogin

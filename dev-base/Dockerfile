@@ -47,6 +47,8 @@ RUN sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
 RUN git clone https://github.com/LazyVim/starter /root/.config/nvim \
     && rm -rf /root/.config/nvim/.git
 
+RUN chsh -s /bin/zsh root
+
 SHELL ["/bin/zsh", "-lc"]
 CMD ["zsh"]
 

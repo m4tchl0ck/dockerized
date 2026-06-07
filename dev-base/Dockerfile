@@ -27,12 +27,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     x11-utils \
     && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update && apt-get install -y locales \
+    && locale-gen en_GB.UTF-8 \
+    && rm -rf /var/lib/apt/lists/*
 
 # act (no apt package)
 RUN curl -fsSL https://raw.githubusercontent.com/nektos/act/master/install.sh | bash -s -- -b /usr/local/bin
 
 # AWS CLI v2
-RUN curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o /tmp/awscliv2.zip \
+RUN curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o /tmp/awscliv2.zip \
     && unzip /tmp/awscliv2.zip -d /tmp \
     && /tmp/aws/install \
     && rm -rf /tmp/awscliv2.zip /tmp/aws

@@ -26,8 +26,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN npm install -g typescript ts-node tsx
 
 # dev-ai
-RUN npm install -g \
-    mcp-remote \
-    @openai/codex \
-    @anthropic-ai/claude-code \
-    && curl -fsSL https://opencode.ai/install | bash
+RUN npm install -g mcp-remote
+RUN npm install -g @openai/codex
+RUN npm install -g @anthropic-ai/claude-code
+RUN curl -fsSL https://opencode.ai/install | bash

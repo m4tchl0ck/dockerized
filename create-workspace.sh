@@ -59,4 +59,15 @@ sed -i.bak \
 
 rm "$DEVCONTAINER.bak"
 
+VS_HOME="$HOME/dev-containers/$NAME/home"
+mkdir -p "$VS_HOME"
+echo "Created VS home directory: $VS_HOME"
+
+cat > "$VS_HOME/.zshrc" <<'EOF'
+if [ ! -f "$HOME/.setup-dev-done" ]; then
+    setup-dev
+    touch "$HOME/.setup-dev-done"
+fi
+EOF
+
 echo "Done. Open '$TARGET_DIR' in VS Code to start."

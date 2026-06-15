@@ -25,11 +25,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     fonts-noto-color-emoji fonts-freefont-ttf \
     libfreetype6 libharfbuzz0b libnss3 \
     x11-utils \
+    locales \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y locales \
-    && locale-gen en_GB.UTF-8 \
-    && rm -rf /var/lib/apt/lists/*
+RUN locale-gen en_GB.UTF-8
 
 # act (no apt package)
 RUN curl -fsSL https://raw.githubusercontent.com/nektos/act/master/install.sh | bash -s -- -b /usr/local/bin

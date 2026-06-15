@@ -9,7 +9,12 @@ ENV LANG=en_GB.UTF-8 LC_ALL=en_GB.UTF-8
 RUN install -m 0755 -d /etc/apt/keyrings \
     && curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian bookworm stable" \
-       > /etc/apt/sources.list.d/docker.list
+       > /etc/apt/sources.list.d/docker.list \
+    && curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+       -o /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+    && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" \
+       > /etc/apt/sources.list.d/github-cli.list
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     bat ripgrep \
@@ -19,13 +24,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     mc \
     gnupg2 scdaemon pinentry-curses socat \
     docker-ce-cli \
+    gh \
+    locales \
     postgresql-client \
     neovim \
     chromium \
     fonts-noto-color-emoji fonts-freefont-ttf \
     libfreetype6 libharfbuzz0b libnss3 \
     x11-utils \
-    locales \
     && rm -rf /var/lib/apt/lists/*
 
 RUN locale-gen en_GB.UTF-8

@@ -34,7 +34,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     x11-utils \
     && rm -rf /var/lib/apt/lists/*
 
-RUN locale-gen en_GB.UTF-8
+# Debian's locale-gen ignores arguments and only builds locales uncommented in
+# /etc/locale.gen, so uncomment en_GB.UTF-8 before generating it.
+RUN sed -i -e 's/# *en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' /etc/locale.gen \
+    && locale-gen \
+    && update-locale LANG=en_GB.UTF-8 LC_ALL=en_GB.UTF-8
 
 # act (no apt package)
 RUN curl -fsSL https://raw.githubusercontent.com/nektos/act/master/install.sh | bash -s -- -b /usr/local/bin
@@ -52,7 +56,7 @@ RUN sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
 RUN git clone https://github.com/LazyVim/starter /root/.config/nvim \
     && rm -rf /root/.config/nvim/.git
 
-RUN chsh -s /bin/zsh root
+RUN chsh -s /bin/zsh vscode
 
 SHELL ["/bin/zsh", "-lc"]
 CMD ["zsh"]

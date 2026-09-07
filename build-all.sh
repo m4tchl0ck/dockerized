@@ -59,11 +59,11 @@ build() {
 build dev-base
 
 # Layer 2: depend on dev-base
+build dev-full
 build dev-node
 build dev-dotnet
 build dev-python
 build dev-ai
-build dev-full
 
 # Layer 3: depend on dev-node
 build dev-typescript

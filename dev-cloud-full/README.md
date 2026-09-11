@@ -89,6 +89,19 @@ accounts named by `SSH_USERS` (`app` here). root is never authorised, so
 escalate with `sudo -i` after logging in — which in this image means not at
 all, since `app` has no sudo grant.
 
+Both `AUTHORIZED_KEYS` and `SSH_USERS` are **required**: the entrypoint exits
+non-zero before starting anything if either is unset or empty. An image that
+exists to be reached over the network should refuse to boot with no authorised
+key rather than come up as a public sshd nobody can enter. `SSH_USERS` defaults
+to `app` from the image, so in practice only `AUTHORIZED_KEYS` must be supplied
+at run time:
+
+```sh
+docker run -e AUTHORIZED_KEYS="$(cat ~/.ssh/id_ed25519.pub)" ... m4tchl0ck/dev-cloud-full
+```
+
+Pass several newline-separated keys to authorise more than one client.
+
 sshd starts only when the container runs as root, and only then can it bind
 port 22 and write root-owned key files before dropping to the session user.
 

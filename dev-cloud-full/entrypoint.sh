@@ -6,26 +6,22 @@
 # loop that never reads a profile.
 set -eu
 
-# Accounts that AUTHORIZED_KEYS is installed for. Defaults to every login
-# account (uid >= 1000); set SSH_USERS to a space separated list to pin it.
+# dev-cloud-full exists to be reached over the network, so starting it without
+# knowing who may log in and with which key is a misconfiguration, not a
+# default — a public sshd with no authorised key just invites brute force.
+# Refuse to start unless both are set. ${var:?msg} exits non-zero, writing msg
+# to stderr, when the variable is unset or empty.
+: "${AUTHORIZED_KEYS:?refusing to start: set it to the authorised SSH public key(s)}"
+: "${SSH_USERS:?refusing to start: set it to the login account(s) allowed over SSH}"
+
+# Accounts that AUTHORIZED_KEYS is installed for, as a space separated list.
 # root is deliberately excluded: logging in as an unprivileged account and
 # escalating leaves a record, and root has no directly authenticatable path.
 ssh_users() {
-    if [ -n "${SSH_USERS:-}" ]; then
-        printf '%s\n' $SSH_USERS
-        return 0
-    fi
-
-    getent passwd | while IFS=: read -r user _ uid _ _ _ _; do
-        if [ "$uid" -ge 1000 ] && [ "$uid" -lt 65534 ]; then
-            printf '%s\n' "$user"
-        fi
-    done
+    printf '%s\n' $SSH_USERS
 }
 
 install_authorized_keys() {
-    [ -n "${AUTHORIZED_KEYS:-}" ] || return 0
-
     install -d -m 0755 /etc/ssh/authorized_keys.d
 
     ssh_users | while read -r user; do

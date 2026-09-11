@@ -11,6 +11,7 @@ Set of tools customised and dockerised.
 | [dev-python](dev-python) | Development container for Python built on dev-base. Installs Python 3 with pip and venv. |
 | [dev-ai](dev-ai) | AI CLI tools container built on dev-base. Includes Claude Code, OpenAI Codex, opencode, and mcp-remote. |
 | [dev-full](dev-full) | All-in-one container built on dev-base. Combines dev-dotnet, dev-node, dev-typescript, dev-python, and dev-ai. |
+| [dev-cloud-full](dev-cloud-full/README.md) | Hardened build of dev-full for a container reachable from the internet. Activates the cloud sshd profile shipped by dev-base, drops the passwordless sudo grant, and runs sessions as an unprivileged account. |
 
 ## Creating a new workspace
 

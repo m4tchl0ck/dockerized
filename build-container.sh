@@ -12,6 +12,7 @@ Options:
   --registry R     Registry/namespace prefix (default: m4tchl0ck).
   --context DIR    Build context directory (default: <container>).
   --dockerfile F   Dockerfile path (default: <context>/Dockerfile).
+  --build-arg K=V  Pass a build argument. Repeatable.
   -h, --help       Show this help.
 USAGE
 }
@@ -30,6 +31,9 @@ REGISTRY_PREFIX="m4tchl0ck"
 CONTEXT_DIR="$CONTAINER"
 DOCKERFILE="$CONTEXT_DIR/Dockerfile"
 BUILD_FLAG="--push"
+# Accumulated as a flat string and word-split at the end. Build arg values here
+# are image references, which contain no whitespace.
+BUILD_ARGS=""
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -53,6 +57,10 @@ while [ "$#" -gt 0 ]; do
       ;;
     --dockerfile)
       DOCKERFILE="$2"
+      shift
+      ;;
+    --build-arg)
+      BUILD_ARGS="$BUILD_ARGS --build-arg $2"
       shift
       ;;
     -h|--help)
@@ -91,11 +99,13 @@ esac
 
 IMAGE_BASE="$REGISTRY_PREFIX/$CONTAINER"
 
-echo "Building $IMAGE_BASE:latest and $IMAGE_BASE:$VERSION for $PLATFORMS with context $CONTEXT_DIR and flags $BUILD_FLAG"
+echo "Building $IMAGE_BASE:latest and $IMAGE_BASE:$VERSION for $PLATFORMS with context $CONTEXT_DIR and flags $BUILD_FLAG$BUILD_ARGS"
+# shellcheck disable=SC2086 # BUILD_ARGS is intentionally word-split
 exec docker buildx build \
   --platform "$PLATFORMS" \
   -t "$IMAGE_BASE:latest" \
   -t "$IMAGE_BASE:$VERSION" \
   -f "$DOCKERFILE" \
+  $BUILD_ARGS \
   "$BUILD_FLAG" \
   "$CONTEXT_DIR"

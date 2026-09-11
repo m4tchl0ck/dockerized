@@ -65,8 +65,9 @@ build dev-dotnet
 build dev-python
 build dev-ai
 
-# Layer 3: depend on dev-node
-build dev-typescript
+# Layer 3: depend on a layer 2 image
+build dev-typescript    # dev-node
+build dev-cloud-full    # dev-full
 
 echo ""
 echo "All containers built and published successfully."

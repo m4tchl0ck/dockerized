@@ -8,7 +8,8 @@ ENV LANG=en_GB.UTF-8 LC_ALL=en_GB.UTF-8
 # Add external apt repo: Docker CLI
 RUN install -m 0755 -d /etc/apt/keyrings \
     && curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg \
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian bookworm stable" \
+    && . /etc/os-release \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian $VERSION_CODENAME stable" \
        > /etc/apt/sources.list.d/docker.list \
     && curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
        -o /etc/apt/keyrings/githubcli-archive-keyring.gpg \
@@ -28,6 +29,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     locales \
     postgresql-client \
     neovim \
+    openvpn \
     chromium \
     fonts-noto-color-emoji fonts-freefont-ttf \
     libfreetype6 libharfbuzz0b libnss3 \
@@ -59,6 +61,14 @@ RUN git clone https://github.com/LazyVim/starter /root/.config/nvim \
 RUN chsh -s /bin/zsh vscode
 
 SHELL ["/bin/zsh", "-lc"]
+
+# No SSH server here, deliberately. A devcontainer is entered through the editor
+# or `docker exec`, so a listening daemon would be weight every image above this
+# one carries for a single consumer. dev-cloud-full installs and configures the
+# server, and owns the whole policy, because a container on a public address is
+# the case that actually needs one. openssh-client is still present, via the
+# devcontainers common-utils feature, so outbound ssh and git over ssh work.
+
 CMD ["zsh"]
 
 # Add dev-setup script.

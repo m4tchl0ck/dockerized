@@ -6,7 +6,7 @@
 # loop that never reads a profile.
 set -eu
 
-# dev-cloud-full exists to be reached over the network, so starting it without
+# dev-full-remote exists to be reached over the network, so starting it without
 # knowing who may log in and with which key is a misconfiguration, not a
 # default — a public sshd with no authorised key just invites brute force.
 # Refuse to start unless both are set. ${var:?msg} exits non-zero, writing msg

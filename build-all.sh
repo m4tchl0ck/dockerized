@@ -67,7 +67,7 @@ build dev-ai
 
 # Layer 3: depend on a layer 2 image
 build dev-typescript    # dev-node
-build dev-cloud-full    # dev-full
+build dev-full-remote    # dev-full
 
 echo ""
 echo "All containers built and published successfully."

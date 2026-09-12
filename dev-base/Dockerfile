@@ -64,7 +64,7 @@ SHELL ["/bin/zsh", "-lc"]
 
 # No SSH server here, deliberately. A devcontainer is entered through the editor
 # or `docker exec`, so a listening daemon would be weight every image above this
-# one carries for a single consumer. dev-cloud-full installs and configures the
+# one carries for a single consumer. dev-full-remote installs and configures the
 # server, and owns the whole policy, because a container on a public address is
 # the case that actually needs one. openssh-client is still present, via the
 # devcontainers common-utils feature, so outbound ssh and git over ssh work.

@@ -1,4 +1,4 @@
-# dev-cloud-full
+# dev-full-remote
 
 [dev-full](../dev-full) made safe to expose to the internet, such as an Azure
 Container Instance with a public IP. It changes nothing in dev-full itself, so
@@ -11,7 +11,7 @@ address to be reachable over SSH while doing it.
 ## Build
 
 ```sh
-docker build --build-arg BASE_VERSION=0.1.2 -t m4tchl0ck/dev-cloud-full:0.1.2 .
+docker build --build-arg BASE_VERSION=0.1.2 -t m4tchl0ck/dev-full-remote:0.1.2 .
 ```
 
 `BASE_VERSION` defaults to `latest`; pin it to make a rebuild reproducible.
@@ -97,7 +97,7 @@ to `app` from the image, so in practice only `AUTHORIZED_KEYS` must be supplied
 at run time:
 
 ```sh
-docker run -e AUTHORIZED_KEYS="$(cat ~/.ssh/id_ed25519.pub)" ... m4tchl0ck/dev-cloud-full
+docker run -e AUTHORIZED_KEYS="$(cat ~/.ssh/id_ed25519.pub)" ... m4tchl0ck/dev-full-remote
 ```
 
 Pass several newline-separated keys to authorise more than one client.

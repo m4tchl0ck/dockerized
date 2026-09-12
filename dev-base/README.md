@@ -25,7 +25,7 @@ weight every image above this one carries for a single consumer.
 `openssh-client` is present, so outbound `ssh` and git over ssh work.
 
 For a container reachable from the internet, use
-[dev-cloud-full](../dev-cloud-full/README.md): it installs `openssh-server`,
+[dev-full-remote](../dev-full-remote/README.md): it installs `openssh-server`,
 ships the entrypoint that starts it, and owns the whole sshd policy.
 
 ## The docker socket
